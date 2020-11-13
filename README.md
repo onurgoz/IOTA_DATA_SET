@@ -25,22 +25,22 @@ IOTA_DATA=[]
 filename = "IOTA_DATA.csv"
 csvFile = open(filename, "w")
 
-###lineterminator== Dosyaya yazarken alt satıra kaçmasını engelliyor 
+### lineterminator== Dosyaya yazarken alt satıra kaçmasını engelliyor 
 csvwrite = csv.writer(csvFile,lineterminator='\n')
 
-###Veriyi parselleme
+### Veriyi parselleme
 IOTA_page=requests.get(f"{Link}",headers=headers_param)
 soup = BeautifulSoup(IOTA_page.content,"html.parser")
 
-###Veriyi ayıklama
+### Veriyi ayıklama
 ozellikler= list(soup.find_all("td",attrs={"class":"no-wrap"}))
 print(ozellikler)
 
-###Verideki $ işaretlerini temizliyoruz
+### Verideki $ işaretlerini temizliyoruz
 for i in range(0,len(ozellikler)):
   ozellikler[i]=ozellikler[i].text.replace("$","")
 
-###Elimizdeki veriyi parçalıyoruz
+### Elimizdeki veriyi parçalıyoruz
 for i in range(0,9863,8):
    Date_IOTA.append(ozellikler[0+i])
    Open_IOTA.append(ozellikler[1+i])
@@ -51,9 +51,9 @@ for i in range(0,9863,8):
    Volume_IOTA.append(ozellikler[6+i])
    Market_Cap_IOTA.append(ozellikler[7+i])
    
-###Parçaladığımız veriyi birleştiriyoruz
+### Parçaladığımız veriyi birleştiriyoruz
 for d,o,h,l,c,v,vi,m in zip(Date_IOTA,Open_IOTA,High_IOTA,Low_IOTA,Close_IOTA,Volume_,Volume_IOTA,Market_Cap_IOTA):
     IOTA_DATA.append([d,o,h,l,c,v,vi,m])
 
-###Elimnizdeki datayıCSV dosyasına yazıyoruz
+### Elimnizdeki datayıCSV dosyasına yazıyoruz
 csvwrite.writerows(IOTA_DATA)
