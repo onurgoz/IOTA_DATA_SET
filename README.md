@@ -1,4 +1,6 @@
 # IOTA_DATA_SET
+## 3. Sınıf Makine Öğrenmesi dersi vize ödevi olarak yaptığım ödev
+## Final ödevi olarak verilerin Makine Öğrenmesi kullanılarak tahmin yapmasını sağlayacağım.
 
 ### kütüphaneleri yüklüyoruz
 > from bs4 import BeautifulSoup
