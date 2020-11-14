@@ -1,7 +1,7 @@
 #kütüphaneleri yüklüyoruz
 from bs4 import BeautifulSoup
 import requests
-import csv
+from  openpyxl import *
 
 #Veri çekme için gerekli parametreler
 headers_param = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36"}
@@ -20,11 +20,9 @@ Market_Cap_IOTA=['Market Cap']
 IOTA_DATA=[]
 
 #Dosya işlemleri
-filename = "IOTA_DATA.csv"
-csvFile = open(filename, "w")
+Data_xlm = Workbook()
+sayfa = Data_xlm.active
 
-#lineterminator== Dosyaya yazarken alt satıra kaçmasını engelliyor 
-csvwrite = csv.writer(csvFile,lineterminator='\n')
 
 #Veriyi parselleme
 IOTA_page=requests.get(f"{Link}",headers=headers_param)
@@ -50,9 +48,10 @@ for i in range(0,9863,8):
    Market_Cap_IOTA.append(ozellikler[7+i])
    
 
-   #Parçaladığımız veriyi birleştiriyoruz
+#Parçaladığımız veriyi birleştiriyoruz
 for d,o,h,l,c,v,vi,m in zip(Date_IOTA,Open_IOTA,High_IOTA,Low_IOTA,Close_IOTA,Volume_,Volume_IOTA,Market_Cap_IOTA):
-    IOTA_DATA.append([d,o,h,l,c,v,vi,m])
+    sayfa.append([d,o,h,l,c,v,vi,m])
 
-#Elimnizdeki datayıCSV dosyasına yazıyoruz
-csvwrite.writerows(IOTA_DATA)
+#Dosyayı kaydedip kapatıyoruz
+Data_xlm.save("IOTA.xlsx")
+Data_xlm.close()
