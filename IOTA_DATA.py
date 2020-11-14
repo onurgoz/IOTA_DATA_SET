@@ -53,5 +53,5 @@ for d,o,h,l,c,v,vi,m in zip(Date_IOTA,Open_IOTA,High_IOTA,Low_IOTA,Close_IOTA,Vo
     sayfa.append([d,o,h,l,c,v,vi,m])
 
 #Dosyayı kaydedip kapatıyoruz
-Data_xlm.save("IOTA.xlsx")
+Data_xlm.save("IOTA_DATA.xlsx")
 Data_xlm.close()
