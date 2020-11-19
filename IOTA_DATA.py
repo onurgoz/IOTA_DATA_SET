@@ -8,10 +8,20 @@ headers_param = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 #Verileri çekeceğim web sayfası
 Link="https://www.coinlore.com/coin/iota/historical-data/-7200/1605301199#hist-prices"
 
+#Verileri ayırırken kullanıcağımız diziler
+Date_IOTA=['Date']
+Open_IOTA=['Open']
+High_IOTA=['High']
+Low_IOTA=['Low']
+Close_IOTA=['Close']
+Volume_=['Volume']
+Volume_IOTA=['Volume IOTA']
+Market_Cap_IOTA=['Market Cap']
+IOTA_DATA=[]
+
 #Dosya işlemleri
-Data_xlsx = Workbook()
-sayfa1=Data_xlsx.create_sheet("İslenmemis Veri",0)
-sayfa2=Data_xlsx.create_sheet("İslenmis Veri",1)
+Data_xlm = Workbook()
+sayfa = Data_xlm.active
 
 
 #Veriyi parselleme
@@ -20,22 +30,28 @@ soup = BeautifulSoup(IOTA_page.content,"html.parser")
 
 #Veriyi ayıklama
 ozellikler= list(soup.find_all("td",attrs={"class":"no-wrap"}))
-
-#İşlenmemiş verimizi kaydediyoruz
-for i in range(0,len(ozellikler)):
-  sayfa1.append([ozellikler[i].text])
+print(ozellikler)
 
 #Verideki $ işaretlerini temizliyoruz
 for i in range(0,len(ozellikler)):
   ozellikler[i]=ozellikler[i].text.replace("$","")
 
-#Elimizdeki veriyi parçalayıp xlsx dosyasına yazıyoruz
-
-sayfa2.append(['Date','Open','High','Low','Close','Volume','Volume IOTA','Market Cap'])
-
+#Elimizdeki veriyi parçalıyoruz
 for i in range(0,9863,8):
-   sayfa2.append([ozellikler[0+i],ozellikler[1+i],ozellikler[2+i],ozellikler[3+i],ozellikler[4+i],ozellikler[5+i],ozellikler[6+i],ozellikler[7+i]])
+   Date_IOTA.append(ozellikler[0+i])
+   Open_IOTA.append(ozellikler[1+i])
+   High_IOTA.append(ozellikler[2+i])
+   Low_IOTA.append(ozellikler[3+i])
+   Close_IOTA.append(ozellikler[4+i])
+   Volume_.append(ozellikler[5+i])
+   Volume_IOTA.append(ozellikler[6+i])
+   Market_Cap_IOTA.append(ozellikler[7+i])
+   
+
+#Parçaladığımız veriyi birleştiriyoruz
+for d,o,h,l,c,v,vi,m in zip(Date_IOTA,Open_IOTA,High_IOTA,Low_IOTA,Close_IOTA,Volume_,Volume_IOTA,Market_Cap_IOTA):
+    sayfa.append([d,o,h,l,c,v,vi,m])
 
 #Dosyayı kaydedip kapatıyoruz
-Data_xlsx.save("IOTA_DATA.xlsx")
-Data_xlsx.close()
+Data_xlm.save("IOTA_DATA.xlsx")
+Data_xlm.close()
